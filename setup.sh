@@ -1,12 +1,14 @@
-DIR_NAME=esxi70u2
-INTERFACE=ens192
+#!/usr/bin/env bash
 
+source vars
+
+# Set temporary variables
 IP_ADDR=`ip addr show dev $INTERFACE | grep "inet " | sed -r "s#.*inet (.*)/.*#\1#"`
 BOOT_IMAGE_DIR=/var/www/html/$DIR_NAME
 BOOT_CFG=$BOOT_IMAGE_DIR/efi/boot/boot.cfg
 BOOT_PREFIX=http://$IP_ADDR/$DIR_NAME
 
-# Setup httpd
+# Install httpd
 yum install -y httpd
 firewall-cmd --add-service=http --permanent
 firewall-cmd --reload
